@@ -1,0 +1,99 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-xl-6 col-sm-12 mb-xl-0 mb-4">
+                <div class="card">
+                    <div class="card-header p-3 pt-2">
+                        <div class="pt-1">
+                            <h4 class="text-sm mb-0 text-capitalize">Normal picture</h4>
+                        </div>
+                    </div>
+                    <img id="inp" src="#" alt="your image"/>
+                    <hr class="dark horizontal my-0">
+                    <div class="card-footer p-3">
+                    </div>
+                    {#              <form action = "http://localhost:5000/uploader" method = "POST"#}
+                    {#         enctype = "multipart/form-data">#}
+                    {#         <input type = "file" name = "file" />#}
+                    {#         <input type = "submit"/>#}
+                    {#      </form>#}
+                    {#      </form> #}
+                    <input type="file" name="filename" onchange="readURL(this);" accept="image/gif, image/jpeg, image/png">
+                </div>
+            </div>
+            <div class="col-xl-6 col-sm-12 mb-xl-0 mb-4">
+                <div class="card">
+                    <div class="card-header p-3 pt-2">
+                        <div class="pt-1">
+                            <h4 class="text-sm mb-0 text-capitalize">Greyscale</h4>
+                        </div>
+                    </div>
+                    <img id="grey" src="#" alt="your image"/>
+                </div>
+            </div>
+        </div>
+
+        {#        <img src="{{ url_for('send_uploaded_file', filename=uploaded_image) }}" />#}
+
+        {% include 'includes/footer.html' %}
+    </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+    <script src="/static/assets/js/plugins/chartjs.min.js"></script>
+    <script>
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                console.log(input.files);
+                reader.onload = function (e) {
+                    $('#inp').attr('src', e.target.result).width(600).height(600);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+                {#var form_data = new FormData($('#upload-file')[0]);#}
+                console.log(input.files[0]);
+                var fd = new FormData();
+                fd.append('file',input.files[0]);
+                console.log(fd);
+               console.log(fd)
+                $(function() {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/upload',
+                        data: fd,
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        success: function (data) {
+                            console.log('Success!');
+                            console.log(data);
+                            var reader2 = new FileReader();
+                            reader2.onload = function (e) {
+                                $('#grey').attr('src', e.target.result).width(600).height(600);
+                            }
+                             reader2.readAsBinaryString(data);
+                        },
+                        error: function (error) {
+                            console.error(error);
+                        },
+                        async: true,
+                    });
+                })
+            }
+        }
+    </script>
+
+{% endblock javascripts %}
