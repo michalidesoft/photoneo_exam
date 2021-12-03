@@ -10,28 +10,45 @@
     <div class="container-fluid py-4">
         <div class="row">
             <div class="col-xl-6 col-sm-12 mb-xl-0 mb-4">
-                <div class="card">
+                <div class="card  d-flex">
                     <div class="card-header p-3 pt-2">
                         <div class="pt-1">
                             <h4 class="text-sm mb-0 text-capitalize">Normal picture</h4>
                         </div>
                     </div>
-                    <img id="inp" src="#" alt="your image"/>
-                    <hr class="dark horizontal my-0">
-                    <div class="card-footer p-3">
+                    <div class="card-body text-center d-flex">
+                        <img id="inp" src="#" alt="your image"/>
                     </div>
-                    <input type="file" name="filename" onchange="readURL(this);"
-                           accept="image/gif, image/jpeg, image/png">
+
+                    <hr class="dark horizontal my-0">
+                    <div class="card-footer p-3 text-center">
+                        <input type="file" name="filename" onchange="readURL(this);"
+                               accept="image/gif, image/jpeg, image/png">
+                    </div>
+
                 </div>
             </div>
             <div class="col-xl-6 col-sm-12 mb-xl-0 mb-4">
-                <div class="card">
+                <div class="card  d-flex">
                     <div class="card-header p-3 pt-2">
                         <div class="pt-1">
                             <h4 class="text-sm mb-0 text-capitalize">Greyscale</h4>
                         </div>
                     </div>
-                    <img id="grey" src="#" alt="your image"/>
+
+
+                    <div class="card-body text-center">
+                        <img id="grey" src="#" alt="your image"/>
+                    </div>
+                    <div class="card-footer">
+                        <div class="input-group input-group-dynamic mb-4">
+                            <input type="text" class="form-control" placeholder="Download name"
+                                   aria-label="Download name"
+                                   id="downloadName"
+                                   aria-describedby="basic-addon1">
+                        </div>
+                        <button id="downloadBtn" type="button" class="btn btn-primary">Download</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -44,8 +61,10 @@
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
 
-    <script src="/static/assets/js/plugins/chartjs.min.js"></script>
     <script>
+        var image;
+        var customFileName;
+
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
@@ -66,9 +85,8 @@
                         processData: false,
                         success: function (response) {
                             var bytestring = response.img
-                            var image = bytestring.split('\'')[1]
+                            image = bytestring.split('\'')[1]
                             $('#grey').attr('src', 'data:image/jpeg;base64,' + image).width(600).height(600);
-                            {#var binaryData = [];#}
                         },
                         error: function (error) {
                             console.error(error);
@@ -78,6 +96,17 @@
                 })
             }
         }
+
+        $("#downloadBtn").click(function () {
+            var downName = $("#downloadName").val()
+            var newFilename = (downName !== '' ? downName : "output") + '.png'
+            console.log(newFilename)
+            var dl = document.createElement('a');
+            dl.setAttribute('href', 'data:image/jpeg;base64,' + image);
+            dl.setAttribute('download', newFilename);
+            dl.click();
+        });
+
     </script>
 
 {% endblock javascripts %}
