@@ -107,7 +107,7 @@
         $("#downloadBtn").click(function () {
             if (image === undefined){return}
             var downName = $("#downloadName").val()
-            var newFilename = (downName !== '' ? downName : "output") + '.png'
+            var newFilename = (downName !== '' ? downName : "output") + '.jpeg'
             var dl = document.createElement('a');
             dl.setAttribute('href', 'data:image/jpeg;base64,' + image);
             dl.setAttribute('download', newFilename);

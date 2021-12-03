@@ -26,7 +26,7 @@ def process_file():
         img = Image.open(image)
         im2 = ImageOps.grayscale(img)
         img_io2 = io.BytesIO()
-        im2.save(img_io2, 'png')
+        im2.save(img_io2, 'jpeg')
         img_io2.seek(0)
         img_base64 = base64.b64encode(img_io2.read())
         return jsonify({
