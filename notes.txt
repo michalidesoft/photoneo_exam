@@ -5,12 +5,13 @@ zredukovanie/kopirovanie hlavnych casti templatov ktore viem pouzit na zakladny 
 vytvorenie dvoch kariet -streda
 v prvej nacitanie suboru do inputu -streda
 googlenie viacero jquery rieseni ako zobrazit prave nahraty suboru -streda
-po zobrazeni riesenie poslatia POST requestu na api kde skonvertujem obrazok do greyscalu a poslem naspat -streda
+po zobrazeni, riesenie poslania POST requestu na api -streda
 viacero problemov s citanim a odoslanim suboru na oboch stranach-streda
 tranformacia cez PIL -streda
 problemy ako odoslat subor, kedze PIL vacsinou prikladmi riesi nejaky datascience kod - stvrtok
-googlenie a hladanie ako transformovat pil na taky output aby to sent_file flasku spravne odoslal - stvrtok
+googlenie a hladanie ako transformovat pil na taky output aby to send_file flasku spravne odoslal - stvrtok
 velke zdrzanie kvoli tomu ze som nevedel spravit kombinaciu obsahu suboru tak aby bola zobrazitelna na webe
 tj pouzivanie send file namiesto jsonify a nasledne trasnformacia na base64  -stvrtok
 stahovanie suboru - piatok
+docker - piatok
 
