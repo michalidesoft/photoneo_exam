@@ -16,7 +16,7 @@
                             <h4 class="text-sm mb-0 text-capitalize">Normal picture</h4>
                         </div>
                     </div>
-                    <div class="card-body text-center d-flex">
+                    <div class="card-body text-center">
                         <img id="inp" src="#" alt="your image"/>
                     </div>
 
@@ -66,41 +66,48 @@
         var customFileName;
 
         function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#inp').attr('src', e.target.result).width(600).height(600);
-                };
-                reader.readAsDataURL(input.files[0]);
+            try {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#inp').attr('src', e.target.result).width(600).height(600);
+                    };
+                    reader.readAsDataURL(input.files[0]);
 
-                var fd = new FormData();
-                fd.append('file', input.files[0]);
-                $(function () {
-                    $.ajax({
-                        type: 'POST',
-                        url: '/upload',
-                        data: fd,
-                        contentType: false,
-                        cache: false,
-                        processData: false,
-                        success: function (response) {
-                            var bytestring = response.img
-                            image = bytestring.split('\'')[1]
-                            $('#grey').attr('src', 'data:image/jpeg;base64,' + image).width(600).height(600);
-                        },
-                        error: function (error) {
-                            console.error(error);
-                        },
-                        async: true,
-                    });
-                })
+                    var fd = new FormData();
+                    fd.append('file', input.files[0]);
+                    $(function () {
+                        $.ajax({
+                            type: 'POST',
+                            url: '/upload',
+                            data: fd,
+                            contentType: false,
+                            cache: false,
+                            processData: false,
+                            success: function (response) {
+                                var bytestring = response.img
+                                image = bytestring.split('\'')[1]
+                                $('#grey').attr('src', 'data:image/jpeg;base64,' + image).width(600).height(600);
+                            },
+                            error: function (response) {
+                                console.error(response);
+                                alert("Error of input file, cannot greyscale");
+                            },
+                            async: true,
+                        });
+                    })
+                }
+            }
+            catch (e) {
+                console.error(e);
+                 alert("Error reading file");
             }
         }
 
         $("#downloadBtn").click(function () {
+            if (image === undefined){return}
             var downName = $("#downloadName").val()
             var newFilename = (downName !== '' ? downName : "output") + '.png'
-            console.log(newFilename)
             var dl = document.createElement('a');
             dl.setAttribute('href', 'data:image/jpeg;base64,' + image);
             dl.setAttribute('download', newFilename);

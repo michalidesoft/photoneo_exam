@@ -1,5 +1,5 @@
 import io
-from flask import Flask, jsonify
+from flask import Flask, jsonify, Response
 from flask import render_template, request
 import filetype
 from PIL import Image, ImageOps
@@ -34,7 +34,10 @@ def process_file():
                    'size': [im2.width, im2.height],
                    'img':  str(img_base64)
               })
-    return jsonify({'msg': "not good file"})
+    return Response(
+        "Bad file, cannot greyscale",
+        status=400,
+    )
 
 
 if __name__ == '__main__':
