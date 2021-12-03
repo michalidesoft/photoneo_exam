@@ -26,7 +26,8 @@
                     {#         <input type = "submit"/>#}
                     {#      </form>#}
                     {#      </form> #}
-                    <input type="file" name="filename" onchange="readURL(this);" accept="image/gif, image/jpeg, image/png">
+                    <input type="file" name="filename" onchange="readURL(this);"
+                           accept="image/gif, image/jpeg, image/png">
                 </div>
             </div>
             <div class="col-xl-6 col-sm-12 mb-xl-0 mb-4">
@@ -66,10 +67,10 @@
                 {#var form_data = new FormData($('#upload-file')[0]);#}
                 console.log(input.files[0]);
                 var fd = new FormData();
-                fd.append('file',input.files[0]);
+                fd.append('file', input.files[0]);
                 console.log(fd);
-               console.log(fd)
-                $(function() {
+                console.log(fd)
+                $(function () {
                     $.ajax({
                         type: 'POST',
                         url: '/upload',
@@ -77,14 +78,34 @@
                         contentType: false,
                         cache: false,
                         processData: false,
-                        success: function (data) {
+                        success: function (response) {
                             console.log('Success!');
-                            console.log(data);
-                            var reader2 = new FileReader();
-                            reader2.onload = function (e) {
-                                $('#grey').attr('src', e.target.result).width(600).height(600);
-                            }
-                             reader2.readAsBinaryString(data);
+                            console.log(response);
+                            var bytestring = response.img
+                            var image = bytestring.split('\'')[1]
+                            {#imagebox.attr('src', 'data:image/jpeg;base64,' + image)#}
+                            $('#grey').attr('src', 'data:image/jpeg;base64,' + image).width(600).height(600);
+                            {#var binaryData = [];#}
+
+                            {#binaryData.push(response);#}
+                            {#var dat = window.URL.createObjectURL(new Blob(binaryData, {type: "image/png"}))#}
+                            {#console.log(dat);#}
+                            {#$('#grey').attr('src', dat).width(600).height(600);#}
+                            {#elem.srcObject = stream#}
+                            var urlCreator = window.URL || window.webkitURL;
+                            {#var imageUrl = urlCreator.createObjectURL(response);#}
+                            {# console.log(imageUrl);#}
+                            {#console.log(response.data);#}
+                            {#var objectURL = URL.createObjectURL(response);#}
+                            {#console.log(objectURL);#}
+                            {#myImage.src = objectURL;#}
+                            {#$('#grey').attr('src',objectURL).width(600).height(600);#}
+                            {#var reader2 = new FileReader();#}
+                            {#reader2.onload = function (e) {#}
+                            {#    $('#grey').attr('src', e.target.result).width(600).height(600);#}
+                            {##}
+                            {# }#}
+                            {# reader2.readAsDataURL(new Blob(binaryData, {type: "image/png"}));#}
                         },
                         error: function (error) {
                             console.error(error);
