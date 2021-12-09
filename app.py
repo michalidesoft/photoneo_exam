@@ -1,4 +1,5 @@
 import io
+from flask_cors import CORS, cross_origin
 from flask import Flask, jsonify, Response
 from flask import render_template, request
 import filetype
@@ -9,6 +10,8 @@ UPLOAD_FOLDER = '/tmp'
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 
 @app.route("/")
@@ -17,6 +20,7 @@ def index():
 
 
 @app.route('/upload', methods=['POST'])
+@cross_origin()
 def process_file():
 
     image = request.files["file"]
